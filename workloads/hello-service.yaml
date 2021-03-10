@@ -3,11 +3,17 @@ kind: Service
 metadata:
   name: docker-nodejs-demo
   namespace: demo
+  labels:
+    app: docker-nodejs-demo
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 spec:
+  externalTrafficPolicy: Local
   ports:
-  - port: 80
-    targetPort: nodejs-port
+  - name: http
+    port: 80
     protocol: TCP
+    targetPort: nodejs-port
   selector:
     app: docker-nodejs-demo
-  type: NodePort
+  type: LoadBalancer
